@@ -2,14 +2,14 @@
 
 module.exports = {
   /* For now: default to cdn. */
-  load(srcPath = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.10.1/min', callback) {
+  load({ srcPath, workerUrl }, callback) {
     if (window.monaco) {
       callback();
       return;
     }
     const config = {
       paths: {
-        vs: srcPath + '/vs'
+        vs: (srcPath || 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.10.1/min') + '/vs'
       }
     };
     const loaderUrl = `${config.paths.vs}/loader.js`;
@@ -20,11 +20,13 @@ module.exports = {
       }
 
       // Load workerscript via proxy
-      window.MonacoEnvironment = {
-        getWorkerUrl: function(workerId, label) {
-          return '/monaco-editor-worker-loader-proxy.js';
-        }
-      };
+      if (workerUrl) {
+        window.MonacoEnvironment = {
+          getWorkerUrl: function(workerId, label) {
+            return workerUrl;
+          }
+        };
+      }
 
       // Load monaco
       window.require(['vs/editor/editor.main'], () => {

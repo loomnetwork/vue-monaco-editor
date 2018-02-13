@@ -12,6 +12,7 @@ module.exports = {
     height: { type: [String, Number], default: '100%' },
     code: { type: String, default: '// code \n' },
     srcPath: { type: String },
+    workerUrl: { type: String },
     language: { type: String, default: 'javascript' },
     theme: { type: String, default: 'vs-dark' }, // vs, hc-black
     options: { type: Object, default: () => {} },
@@ -124,7 +125,7 @@ module.exports = {
       }
     },
     fetchEditor() {
-      monacoLoader.load(this.srcPath, this.createMonaco);
+      monacoLoader.load({ srcPath: this.srcPath, workerUrl: this.workerUrl }, this.createMonaco);
     },
     setDiffModels: function (editor, original, modified) {
       var originalModel = window.monaco.editor.createModel(original, "solidity");
