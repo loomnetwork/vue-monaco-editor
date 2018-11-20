@@ -9,7 +9,7 @@ module.exports = {
     }
     const config = {
       paths: {
-        vs: (srcPath || 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.10.1/min') + '/vs'
+        vs: (srcPath || 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.15.5/min') + '/vs'
       }
     };
     const loaderUrl = `${config.paths.vs}/loader.js`;
